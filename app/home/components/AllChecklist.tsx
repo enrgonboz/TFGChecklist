@@ -1,83 +1,142 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Checkbox,
-  Paper,
-  TextField,
-  Button,
 } from '@mui/material';
 import IndividualChecklist from './IndividualChecklist';
-import axios from 'axios'; // Import Axios
-import { ChecklistData, ChecklistsApiResponse } from '@/app/types/Interfaces';
-import { useChecklistContext } from '@/app/context/ChecklistProvider';
+import { ChecklistDataMockup } from '@/app/types/mockupsInterfaces';
 
+const checklistsMockup: ChecklistDataMockup[] = [
+  {
+    Id: 1,
+    Name: "Lista de la compra",
+    Description: "Mi lista de la compra septiembre",
+    Tasks: [
+      {
+        Id: 1,
+        Name: "Comprar pan",
+        Description: "Comprar pan en la panadería de la esquina",
+        Completed: false,
+      },
+      {
+        Id: 2,
+        Name: "Comprar leche",
+        Description: "Comprar leche en el supermercado",
+        Completed: false,
+      },
+      {
+        Id: 3,
+        Name: "Comprar huevos",
+        Description: "Comprar huevos en la tienda de la esquina",
+        Completed: false,
+      },
+    ],
+    Users: [
+      {
+        Id: 1,
+        Email: "juan@email.com",
+      },
+    ],
+  },
+  {
+    Id: 2,
+    Name: "Proyecto de Diseño de Interfaz de Usuario",
+    Description: "Gestión de tareas para el proyecto de diseño de interfaz de usuario",
+    Tasks: [
+      {
+        Id: 4,
+        Name: "Investigación de mercado",
+        Description: "Realizar investigación de mercado para identificar tendencias",
+        Completed: false
+      },
+      {
+        Id: 5,
+        Name: "Diseño de wireframes",
+        Description: "Crear wireframes de las pantallas principales",
+        Completed: false
+      },
+      {
+        Id: 6,
+        Name: "Pruebas de usabilidad",
+        Description: "Realizar pruebas de usabilidad con usuarios reales",
+        Completed: false
+      },
+      {
+        Id: 7,
+        Name: "Diseño de alta fidelidad",
+        Description: "Crear diseños de alta fidelidad basados en los wireframes",
+        Completed: false
+      }
+    ],
+    Users: [
+      {
+        Id: 1,
+        Email: "juan@email.com"
+      },
+      {
+        Id: 2,
+        Email: "carlos@email.com"
+      }
+    ]
+  },
+  {
+    Id: 3,
+    Name: "Libros",
+    Description: "Libros",
+    Tasks: [
+      {
+        Id: 8,
+        Name: "Libro 1",
+        Description: "",
+        Completed: false
+      },
+      {
+        Id: 9,
+        Name: "Libro 2",
+        Description: "",
+        Completed: false
+      },
+      {
+        Id: 10,
+        Name: "Libro 3",
+        Description: "",
+        Completed: false
+      },
+      {
+        Id: 11,
+        Name: "Libro 4",
+        Description: "",
+        Completed: false
+      }
+    ],
+    Users: [
+      {
+        Id: 3,
+        Email: "juan@email.com"
+      }
+    ]
+  }
+  
+  
+
+]
 
 const AllChecklist: React.FC = () => {
-    const [checklists, setChecklists] = useState<ChecklistData[]>([]);
-    const [loading, setLoading] = useState(true); // Initialize loading as true
-    const { refreshTrigger } = useChecklistContext(); // Access the context
-
-    const fetchData = async () => {
-      const jwtToken = localStorage.getItem('token'); // Replace with your actual JWT retrieval logic
-  
-      // Make sure you have the JWT token before making the request
-      if (jwtToken) {
-        try {
-          console.log("RF",refreshTrigger)
-          //const response: ChecklistsApiResponse = await axios.get('http://localhost:1337/api/checklists?populate=*', {
-          const response: ChecklistsApiResponse = await axios.get('https://installing-strengths-metadata-turn.trycloudflare.com/api/checklists?populate=*', {
-
-            headers: {
-              Authorization: `Bearer ${jwtToken}`,
-            },
-          });
-          const userChecklists = response.data.data;
-          setChecklists(userChecklists);
-          setLoading(false); // Set loading to false when data is successfully fetched
-        } catch (error) {
-          console.error('Error fetching checklists:', error);
-          setLoading(false); // Set loading to false on error as well
-        }
-      }
-    };
-  // Use useEffect to fetch checklists when the component mounts
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // Use another useEffect to refresh checklists when refreshTrigger changes
-  useEffect(() => {
-    if (refreshTrigger) {
-      fetchData(); // Call the async function
-    }
-  }, [refreshTrigger]);
-
-  const handleAddChecklistSuccess = () => {
-    // This function will be called when a new checklist is successfully created
-    //setRefreshTrigger(true); // Trigger a refresh
-  };
+  const [checklists, setChecklists] = useState<ChecklistDataMockup[]>(checklistsMockup);
+    
     
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" align="center" gutterBottom>
         Checklists
       </Typography>
-      {loading ? (
-        // Show a loading spinner while data is being fetched
-        <div className="spinner">Loading...</div>
-      ) : (
-        // // Once data is loaded, map over checklists and render them
-         checklists.map((checklist) => (
-           <div key={checklist.id}>
-            <IndividualChecklist  id={checklist.id} attributes={checklist.attributes} />
+         {checklists.map((checklist) => (
+           <div key={checklist.Id}>
+            <IndividualChecklist  Id={checklist.Id} Name={checklist.Name} Tasks={checklist.Tasks} Description={checklist.Description} Users={checklist.Users}/>
            </div>
         ))
-      )}
+        }
     </Container>
   );
 }

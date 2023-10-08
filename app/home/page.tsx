@@ -4,7 +4,6 @@ import AddChecklistDialog from "../newChecklist/components/AddChecklistDialog";
 import AllChecklist from "./components/AllChecklist";
 import { Fab } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import { useChecklistContext, ChecklistProvider } from "../context/ChecklistProvider";
 
 
 export default function Home() {
@@ -19,12 +18,12 @@ export default function Home() {
   };
 
   const handleAddChecklist = () => {
+    
     closeDialog();
   };
 
 
   return (
-    <ChecklistProvider>
     <div>
       <AllChecklist />
       <Fab color="primary" onClick={openDialog} style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
@@ -36,6 +35,5 @@ export default function Home() {
         onAddChecklist={handleAddChecklist}
       />
     </div>
-    </ChecklistProvider>
   );
 }

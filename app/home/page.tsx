@@ -1,13 +1,29 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddChecklistDialog from "../newChecklist/components/AddChecklistDialog";
-import AllChecklist from "./components/AllChecklist";
-import { Fab } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import "./style.css";
+import { ChecklistTabs } from "./components/Tabs";
+import { ThemeProvider } from '@mui/material/styles'; // Correct import for MUI v5
+import { createTheme } from "@mui/material";
+import { ChecklistProvider, useChecklistView, useDispatchChecklist } from "../checklist/context";
 
-
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1A0497",
+    },
+  },
+});
 export default function Home() {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const { checklists } = useChecklistView();
+  const { initializeState } = useDispatchChecklist();
+  
+  useEffect(() => {
+    initializeState();
+  }, []);
 
   const openDialog = () => {
     setDialogOpen(true);
@@ -24,16 +40,18 @@ export default function Home() {
 
 
   return (
-    <div>
-      <AllChecklist />
-      <Fab color="primary" onClick={openDialog} style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
-        <AddIcon />
-      </Fab>
-      <AddChecklistDialog 
-        open={isDialogOpen}
-        onClose={closeDialog}
-        onAddChecklist={handleAddChecklist}
-      />
-    </div>
+      <ThemeProvider theme={Theme}>
+        <Box className="home">
+          <ChecklistTabs />
+          <Fab color="primary" onClick={openDialog} style={{ position: 'fixed', bottom: '1.5rem', right: '0.5rem' }}>
+            <AddIcon />
+          </Fab>
+          <AddChecklistDialog 
+            open={isDialogOpen}
+            onClose={closeDialog}
+            onAddChecklist={handleAddChecklist}
+          />
+        </Box>
+      </ThemeProvider>
   );
 }

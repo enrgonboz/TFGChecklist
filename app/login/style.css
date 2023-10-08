@@ -1,0 +1,23 @@
+.container {
+    height: 100vh;
+    width: auto;
+    margin-top: 5rem;
+}
+
+.forgot-password {
+    margin-top: 1rem;
+}
+
+.login-image {
+    width: 70%;
+    height: auto;
+    margin-left: 2rem;
+}
+
+.register-link {
+    margin-top: 1rem;
+}
+
+.typewriter {
+    white-space: pre-line;
+}

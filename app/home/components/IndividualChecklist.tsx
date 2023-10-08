@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from 'react';
-import { List, ListItemText, ListItem, Card, CardActionArea } from '@mui/material';
+import { Grid, List, ListItemText, ListItem, Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { ChecklistDataMockup, TaskDataMockup } from '@/app/types/mockupsInterfaces';
-
+import './style.css'
 
 export default function IndividualChecklist({
   Id,
@@ -15,24 +15,24 @@ export default function IndividualChecklist({
 }: ChecklistDataMockup) {
   const router = useRouter();
 
-
   const handleClickChecklist = () => {
     router.push(`/checklist?id=${Id}`);
   }
 
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardActionArea onClick={handleClickChecklist}>
-       <List>
-        <h1>{Name}</h1>
-        {Tasks.map((task: TaskDataMockup) => (
-          <ListItem key={task.Id}>
-            <ListItemText primary={task.Name} secondary={task.Description}/>
-          </ListItem>
-        ))}
-       </List>
-       </CardActionArea>
-    </Card>
-    
+    <Grid item sx={{ padding: '8px 4px 0px'}}>
+      <Card className='card'>
+        <CardActionArea onClick={handleClickChecklist}>
+          <List>
+            <Typography variant="subtitle2" component="div" className='title-card'>{Name}</Typography>
+              {Tasks.map((task: TaskDataMockup) => (
+                <ListItem className='card-content' key={task.Id}>
+                  <Typography variant="caption" component="div">· {task.Name}</Typography>
+                </ListItem>
+              ))}
+          </List>
+        </CardActionArea>
+      </Card>
+    </Grid>
   );
 }

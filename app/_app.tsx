@@ -1,16 +1,25 @@
+"use client"
 import { useEffect } from 'react';
 import { AppProps } from 'next/app';
-import { ChecklistProvider } from './context/ChecklistProvider';
 import Home from './home/page';
+import { ThemeProvider } from '@mui/styles';
+import { createTheme } from '@mui/material';
+import { ChecklistProvider } from './checklist/context';
+
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1A0497',
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    // Your global initialization code can go here
-  }, []);
-
   return (
     <ChecklistProvider>
-      <Home {...pageProps} />
+      <ThemeProvider theme={Theme}>
+        <Home {...pageProps} />
+      </ThemeProvider>
     </ChecklistProvider>
   );
 }

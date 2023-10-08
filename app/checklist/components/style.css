@@ -1,6 +1,37 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.full-height-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.list-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow-y: auto;
+  margin: 10px;
+}
+
 .new-task-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px; /* Add some spacing between the last task and the new task input */
-  }
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin-top: auto; /* Pushes this container to the bottom */
+  margin-bottom: 10px;
+  height: 40px;
+}
+
+.new-task-input {
+  height: 40px;
+}
+
+.new-task-button {
+  margin-left: 20px;
+  height: 40px;
+}

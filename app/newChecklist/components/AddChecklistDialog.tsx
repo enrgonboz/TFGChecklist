@@ -10,13 +10,15 @@ import {
   Button,
 } from '@mui/material';
 import { AddChecklistDialogProps } from '@/app/types/Interfaces';
+import { useChecklistView, useDispatchChecklist } from '@/app/checklist/context';
 
 const AddChecklistDialog: React.FC<AddChecklistDialogProps> = ({
   open,
   onClose,
 }) => {
   const [newChecklistTitle, setNewChecklistTitle] = useState('');
-
+  const { checklists } = useChecklistView();
+  const { dispatchAddChecklist } = useDispatchChecklist();
 
   const handleClose = () => {
     setNewChecklistTitle('');
@@ -26,18 +28,24 @@ const AddChecklistDialog: React.FC<AddChecklistDialogProps> = ({
   const handleAddChecklist = () => {
     if (newChecklistTitle === '') {
       return;
+    } else {
+      console.log(checklists);
+      const newChecklistId = Math.max(...checklists.map((ch) => ch.Id)) + 1;
+      dispatchAddChecklist({ Id: newChecklistId, Name: newChecklistTitle, Description: '', Tasks: [], Users: [] })
+      setNewChecklistTitle('');
     }
+    onClose();
   };
   
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add New Checklist</DialogTitle>
+      <DialogTitle>Nueva Checklist</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
-          label="Title"
+          label="Título"
           fullWidth
           value={newChecklistTitle}
           onChange={(e) => setNewChecklistTitle(e.target.value)}
@@ -45,10 +53,10 @@ const AddChecklistDialog: React.FC<AddChecklistDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Cancel
+          Cancelar
         </Button>
         <Button onClick={handleAddChecklist} color="primary">
-          Add
+          Añadir
         </Button>
       </DialogActions>
     </Dialog>

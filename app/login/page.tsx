@@ -1,16 +1,16 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Grid, Link } from '@mui/material';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { Container, Typography, TextField, Button, Grid, Link, createTheme } from '@mui/material';
+import './style.css';
+import Image from 'next/image';
+import Logo from './resources/logo1.png';
 
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false); // Set loading to false on initialization
-  const router = useRouter();
 
   const handleLogin = () => {
     setLoading(true); // When the form is submitted, set loading to true
@@ -20,10 +20,13 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      <Container maxWidth="sm">
-        <Typography variant="h4" align="center" gutterBottom>
-          Bienvenido de nuevo, inicia sesión
-        </Typography>
+      <Container maxWidth="sm" className='container'>
+      <Typography variant="h5" align="center" gutterBottom>
+        Bienvenido de nuevo,
+      </Typography>
+      <Typography variant="h5" align="center" gutterBottom>
+        inicia sesión
+      </Typography>
         <form onSubmit={handleLogin}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -44,7 +47,7 @@ const Login: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Typography align="center" gutterBottom>
+              <Typography align="center" gutterBottom className='forgot-password'>
                 ¿Olvidaste tu contraseña?
               </Typography>
             </Grid>
@@ -52,22 +55,22 @@ const Login: React.FC = () => {
               <Button
                 type="submit"
                 variant="contained"
-                color="primary"
                 fullWidth
                 disabled={loading} // Disable the button when loading is true
                 href='/home'
               >
-                {loading ? 'Logging in...' : 'Login'}
+                {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
               </Button>
-              <Typography align="center" gutterBottom>
-                ¿No tienes una cuenta?
-                <Link href="/register" underline="always">
-                  Regístrate
+              <Typography align="center" gutterBottom className='register-link'>
+                ¿No tienes cuenta?
+                &nbsp;<Link href="/register" underline="always">
+                Regístrate
                 </Link>
               </Typography>
             </Grid>
           </Grid>
         </form>
+        <Image src={Logo} width={100} height={100} alt="login" className='login-image'/>
       </Container>
     </div>
   );
